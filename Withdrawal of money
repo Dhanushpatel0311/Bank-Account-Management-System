@@ -1,0 +1,191 @@
+#include <stdio.h>
+
+struct Bank
+{
+    int accountNo;
+    char name[50];
+    float balance;
+};
+
+int main()
+{
+    struct Bank customer[100] = {
+        {101, "Rahul", 5000},
+        {102, "Priya", 6000},
+        {103, "Kiran", 7000},
+        {104, "Anu", 8000},
+        {105, "Arun", 9000},
+        {106, "Sneha", 10000},
+        {107, "Ravi", 11000},
+        {108, "Pooja", 12000},
+        {109, "Ajay", 13000},
+        {110, "Meena", 14000}
+    };
+
+    int n = 10, choice, i, pos, accNo;
+    float amount;
+    struct Bank temp;
+
+    while (1)
+    {
+        printf("\n===== BANK MANAGEMENT SYSTEM =====\n");
+        printf("1. Add New Person\n");
+        printf("2. Remove Person\n");
+        printf("3. Withdraw Money\n");
+        printf("4. Display All Details\n");
+        printf("5. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                if (n >= 100)
+                {
+                    printf("Bank is full!\n");
+                    break;
+                }
+
+                printf("Enter Account Number: ");
+                scanf("%d", &temp.accountNo);
+
+                for (i = 0; i < n; i++)
+                {
+                    if (customer[i].accountNo == temp.accountNo)
+                        break;
+                }
+
+                if (i < n)
+                {
+                    printf("Account already exists!\n");
+                    break;
+                }
+
+                printf("Enter Customer Name: ");
+                scanf(" %49[^\n]", temp.name);
+
+                printf("Enter Opening Balance: ");
+                scanf("%f", &temp.balance);
+
+                if (temp.balance < 0)
+                {
+                    printf("Invalid balance!\n");
+                    break;
+                }
+
+                printf("Enter Position (1 to %d): ", n + 1);
+                scanf("%d", &pos);
+
+                if (pos < 1 || pos > n + 1)
+                {
+                    printf("Invalid position!\n");
+                    break;
+                }
+
+                for (i = n; i >= pos; i--)
+                    customer[i] = customer[i - 1];
+
+                customer[pos - 1] = temp;
+                n++;
+
+                printf("Member added successfully!\n");
+                break;
+
+            case 2:
+                printf("Enter Account Number to Remove: ");
+                scanf("%d", &accNo);
+
+                for (i = 0; i < n; i++)
+                {
+                    if (customer[i].accountNo == accNo)
+                        break;
+                }
+
+                if (i == n)
+                {
+                    printf("Account not found!\n");
+                    break;
+                }
+
+                for (; i < n - 1; i++)
+                    customer[i] = customer[i + 1];
+
+                n--;
+
+                printf("Member removed successfully!\n");
+                break;
+
+            case 3:
+                printf("Enter Account Number: ");
+                scanf("%d", &accNo);
+
+                for (i = 0; i < n; i++)
+                {
+                    if (customer[i].accountNo == accNo)
+                        break;
+                }
+
+                if (i == n)
+                {
+                    printf("Account not found!\n");
+                    break;
+                }
+
+                printf("Customer Name: %s\n", customer[i].name);
+                printf("Available Balance: Rs. %.2f\n",
+                       customer[i].balance);
+
+                printf("Enter Withdrawal Amount: ");
+                scanf("%f", &amount);
+
+                if (amount <= 0)
+                    printf("Invalid amount!\n");
+
+                else if (amount > customer[i].balance)
+                    printf("Insufficient balance!\n");
+
+                else
+                {
+                    customer[i].balance -= amount;
+
+                    printf("Withdrawal successful!\n");
+                    printf("Remaining Balance: Rs. %.2f\n",
+                           customer[i].balance);
+                }
+
+                break;
+
+            case 4:
+                printf("\n===== ALL CUSTOMER DETAILS =====\n");
+
+                if (n == 0)
+                {
+                    printf("No customer records available.\n");
+                }
+                else
+                {
+                    for (i = 0; i < n; i++)
+                    {
+                        printf("\nPosition: %d\n", i + 1);
+                        printf("Account Number: %d\n",
+                               customer[i].accountNo);
+                        printf("Name: %s\n", customer[i].name);
+                        printf("Balance: Rs. %.2f\n",
+                               customer[i].balance);
+                    }
+                }
+
+                break;
+
+            case 5:
+                printf("Thank you!\n");
+                return 0;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
