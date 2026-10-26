@@ -1,0 +1,154 @@
+#include <stdio.h>
+
+struct Customer
+{
+    int bankNo;
+    char name[50];
+    char address[100];
+    char phoneNo[15];
+
+    float openingBalance;
+    float deposit;
+    float withdrawal;
+    float utrPayment;
+    float remainingBalance;
+};
+
+int main()
+{
+    struct Customer c[100];
+
+    int n, i, choice;
+
+    printf("Enter number of customers: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++)
+    {
+        printf("\nEnter details of Customer %d\n", i + 1);
+
+        printf("Enter Bank No: ");
+        scanf("%d", &c[i].bankNo);
+
+        printf("Enter Name: ");
+        scanf(" %49[^\n]", c[i].name);
+
+        printf("Enter Address: ");
+        scanf(" %99[^\n]", c[i].address);
+
+        printf("Enter Phone No: ");
+        scanf("%14s", c[i].phoneNo);
+
+        printf("Enter Opening Balance: ");
+        scanf("%f", &c[i].openingBalance);
+
+        printf("Enter Deposit: ");
+        scanf("%f", &c[i].deposit);
+
+        printf("Enter Withdrawal: ");
+        scanf("%f", &c[i].withdrawal);
+
+        printf("Enter UTR Payment: ");
+        scanf("%f", &c[i].utrPayment);
+
+        c[i].remainingBalance =
+            c[i].openingBalance +
+            c[i].deposit +
+            c[i].utrPayment -
+            c[i].withdrawal;
+    }
+
+    while (1)
+    {
+        printf("\n\n===== CUSTOMER DETAILS MENU =====");
+        printf("\n1. Display All Customers");
+        printf("\n2. Display Customer by Bank No");
+        printf("\n3. Exit");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+
+                for (i = 0; i < n; i++)
+                {
+                    printf("\n\n===== CUSTOMER %d =====",
+                           i + 1);
+
+                    printf("\nBank No: %d",
+                           c[i].bankNo);
+
+                    printf("\nName: %s",
+                           c[i].name);
+
+                    printf("\nAddress: %s",
+                           c[i].address);
+
+                    printf("\nPhone No: %s",
+                           c[i].phoneNo);
+
+                    printf("\nOpening Balance: %.2f",
+                           c[i].openingBalance);
+
+                    printf("\nDeposit: %.2f",
+                           c[i].deposit);
+
+                    printf("\nWithdrawal: %.2f",
+                           c[i].withdrawal);
+
+                    printf("\nUTR Payment: %.2f",
+                           c[i].utrPayment);
+
+                    printf("\nRemaining Balance: %.2f",
+                           c[i].remainingBalance);
+                }
+
+                break;
+
+            case 2:
+            {
+                int searchNo, found = 0;
+
+                printf("Enter Bank No to search: ");
+                scanf("%d", &searchNo);
+
+                for (i = 0; i < n; i++)
+                {
+                    if (c[i].bankNo == searchNo)
+                    {
+                        printf("\nCustomer Name: %s",
+                               c[i].name);
+
+                        printf("\nAddress: %s",
+                               c[i].address);
+
+                        printf("\nPhone No: %s",
+                               c[i].phoneNo);
+
+                        printf("\nRemaining Balance: %.2f",
+                               c[i].remainingBalance);
+
+                        found = 1;
+                        break;
+                    }
+                }
+
+                if (found == 0)
+                    printf("\nCustomer not found!");
+
+                break;
+            }
+
+            case 3:
+                printf("\nThank you!");
+                return 0;
+
+            default:
+                printf("\nInvalid choice!");
+        }
+    }
+
+    return 0;
+}
